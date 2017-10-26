@@ -51,8 +51,8 @@ function createHtmlFile(fileName, content) {
     }, function(err, data) {
         if (data) {
             var filePath = output + '/' + fileName + '.html';
-            data = data.replace('<title></title>', '<title>' + fileName + '</title>');
-            data = data.replace('<body></body>', '<body>\n' + content + '\n</body>');
+            data = data.replace('{{title}}', fileName);
+            data = data.replace('{{body}}', content);
             fs.writeFile(filePath, data, {
                 encoding: 'utf-8'
             }, function (err) {
