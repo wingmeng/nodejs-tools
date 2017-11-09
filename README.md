@@ -11,6 +11,10 @@
 
 1. [batch naming photos](/batch-naming-photos)
     > 将照片按照人员姓名批量命名
+
+    
+    ![](batch-naming-photos/intro.gif)
+
     - 将需要处理的照片放到 `photos` 文件夹下；
      
          `demoPhotos` 文件夹存放有示例照片。
