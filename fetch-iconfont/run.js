@@ -14,7 +14,7 @@ var iconfontURL = '//at.alicdn.com/t/font_479525_abqmpfyfh9drhpvi.css';  // 字�
 
 /**
  * 下载 iconfont 的 CSS 文件
- */    
+ */
 http.get('http:' + iconfontURL, function(res) {
     res.setEncoding('utf8');
 
@@ -24,13 +24,13 @@ http.get('http:' + iconfontURL, function(res) {
     res.on('data', function(chunk) {
         cssContent += chunk;
     });
-    
+
     // 下载完成
     res.on('end', function() {
         var regRule = new RegExp(/(?=url\(\W)\S+(?=\W\))/, 'g');  // output: url('//xxx//xx.xx?t=xxxxx
         var fontURLs = getFontURLs(cssContent, regRule);
-        
-        modifyFontCSS(fontURLs, cssContent, regRule);        
+
+        modifyFontCSS(fontURLs, cssContent, regRule);
         downloadFonts(fontURLs);
     });
 });
@@ -48,7 +48,7 @@ function getFontURLs(content, regEx) {
     });
 
     // 处理 fontURLs 使其格式合法化
-    fontURLs = fontURLs.map(function(item) {
+    fontURLs = fontURLs.map(item => {
         if (item.indexOf('data:application') === -1) {  // base64 形式的字体
             item = item.replace(/url\(\W/, '').split('?t=')[0];  // output: //xxx//xx.xx
 
@@ -72,11 +72,11 @@ function modifyFontCSS(fonts, data, regEx) {
 
         data = data.replace(regEx, function(match) {
             return '../' + destPath.fonts + fontName;
-        });        
+        });
     });
 
     // 将调整完字体路径的 CSS 写入本地项目
-    var localCSSFile = destPath.base + destPath.css
+    var localCSSFile = cssPath
         + iconfontURL.substr(iconfontURL.lastIndexOf('/'));
 
     fs.writeFile(localCSSFile, data, function (err) {
@@ -91,7 +91,7 @@ function modifyFontCSS(fonts, data, regEx) {
  * @param {array} urlArr - 字体远程地址
  */
 function downloadFonts(urlArr) {
-    urlArr.forEach(function(url) {
+    urlArr.forEach(url => {
         var fileName = returnFontName(url),
             fileStream = fs.createWriteStream(
                 destPath.base + destPath.fonts + fileName
@@ -99,7 +99,7 @@ function downloadFonts(urlArr) {
 
         http.get('http:' + url, function(res) {
             res.pipe(fileStream);  // 文件流写入
-                        
+
             // 下载完成
             res.on('end', function() {
                 console.log(fileName + ' 下载成功');
@@ -125,7 +125,7 @@ function returnFontName(url) {
 function removeRepeat(arr) {
     var result = [],
         hash = {};
-    
+
     for (var i = 0, elm; i < arr.length; i++) {
         if (arr[i]) {
             (elm = arr[i]) != null;
